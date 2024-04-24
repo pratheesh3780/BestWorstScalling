@@ -52,7 +52,9 @@ class(bws3dsgn)
 # to create Case 3 BWS questions
 questionnaire(bws3dsgn)
 #######################################ANALYSIS
-attach(data)
+
+
+data<-smija
 bws3rsp.var <- colnames(data)[3:26]
 bws3rsp.var
 bws3rsp <-data
@@ -65,26 +67,39 @@ bws3dat <- bws3.dataset(
   asc = NULL,
   model = "maxdiff")
 
-names(bws3dat)
-
-head(bws3dat,3)
-#model
-bws3mf <- RES ~ less + less1 +
-  medium + medium1 + medium2 +medium3+less2 + less3 + 
-  high+ high1+ high2 + high3 
-  #strata(STR)
-
-#logitmodel
-model <- clogit(RES ~ less + high + medium + strata(STR), data = bws3dat)
-summary(model)
 
 
-bws3md.cl <- Epi::clogit(
-  formula = bws3mf,
+#clogitmodel
+model1 <- RES ~ high + medium +less1 + high1 + high2 + medium2 + high3 + medium3 + strata(STR)
+
+#model2 <- clogit(RES ~ less + high + medium +less1 + high1 + medium1 +less2 + high2 + medium2 + less3 + high3 + medium3 + strata(STR), data = bws3dat)
+bws3md.cl <- clogit(
+  formula = model1,
   data = bws3dat)
 bws3md.cl
 
+result<-summary(bws3md.cl)
+coefficients<- result$coefficients
+write.csv(coefficients,"resultcoef.csv")
 
+gofm(bws3md.cl)
 
+mwtp(
+  output = bws3md.cl,
+  monetary.variables =c(5,4,3,1),
+  nonmonetary.variables = c("high","medium","less1","high1", 
+                              "high2","medium2","high3","medium3"),
+ ) 
 
+############################## ANALYSING THE ENTRY
+# Create a sample dataframe (Replace this with your actual dataframe)
+df <- data[3:26]
+numbers <- 1:9
+# Apply the table() function to count occurrences of each number in each column
+result <- sapply(df, function(x) table(factor(x, levels = numbers)))
 
+# Convert the result matrix to a dataframe
+result_df <- as.data.frame(result)
+
+# Print the result dataframe
+print(result_df)
