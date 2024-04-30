@@ -9,7 +9,10 @@ options(digits = 6)
 oa <- oa.design(
   nl = c(3, 3, 3, 3),
   randomize = FALSE)
-oa
+oa_df <- as.data.frame(oa)
+
+# Save data frame to CSV file
+write.csv(oa_df, "oa_table.csv", row.names = FALSE)
 # The resultant design is a matrix with nine rows and four columns. The columns of the OA correspond to attributes, 
 # while the rows correspond to profiles.
 
