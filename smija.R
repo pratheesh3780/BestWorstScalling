@@ -27,6 +27,11 @@ bibd <- find.BIB(
   k = 6)
 bibd
 
+bibd <- as.data.frame(bibd)
+
+# Save data frame to CSV file
+write.csv(bibd, "bibd.csv", row.names = FALSE)
+
 ## Check
 isGYD(bibd)
 
