@@ -6,6 +6,7 @@ set.seed(1)
   k = 6)
 items.rice <- c("1", "2", "3", "4", "5", "6", "7","8","9")
 data<-smija[,-2]
+head(data,4)
 response.vars <- colnames(data)[2:25]
 md.data <- bws.dataset(
   data = data, # data frame containing response dataset
@@ -17,12 +18,15 @@ md.data <- bws.dataset(
   response = response.vars, # the names of response variables
   model = "maxdiff") 
 cs <- bws.count(md.data, cl = 2)
+#countmethod<-summary(cs)
+#write.csv(countmethod, "countmethod.csv", row.names = TRUE)
+par(mar = c(5, 4, 2, 1))
 plot(
   x = cs, 
   score = "bw",       # BW scores are used 
   pos = 4,            # Labels are added to the right of the points
-  ylim = c(1, 2), # the y axis ranges from 1.6 to 2.3
-  xlim =c(-3, 3))     # the x axis ranges from -3 to 3
+  ylim = c(1, 6), # the y axis ranges from 1.6 to 2.3
+  xlim =c(-5, 5))     # the x axis ranges from -3 to 3
 
 par(mar = c(5, 4, 2, 1))
 barplot(
